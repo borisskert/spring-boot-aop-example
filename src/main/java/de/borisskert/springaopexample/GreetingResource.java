@@ -9,7 +9,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class GreetingResource {
 
     @GetMapping
+    @Profiled("get-greeting")
     public String get() {
         return "Hello World!";
+    }
+
+    @GetMapping("/error")
+    @Profiled("get-greeting-error")
+    public String throwsError() {
+        throw new RuntimeException("Throwing error for test");
     }
 }
