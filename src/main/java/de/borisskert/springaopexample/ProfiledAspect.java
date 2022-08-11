@@ -22,20 +22,19 @@ public class ProfiledAspect {
         String profiledValue = getProfiledValue(joinPoint);
         StopWatch stopWatch = new StopWatch();
 
-        Object result;
         try {
             stopWatch.start();
-            result = joinPoint.proceed();
+            Object result = joinPoint.proceed();
             stopWatch.stop();
 
             logResult(profiledValue, stopWatch, result, joinPoint.getArgs());
+
+            return result;
         } catch (Throwable e) {
             stopWatch.stop();
             logException(profiledValue, stopWatch, e, joinPoint.getArgs());
             throw e;
         }
-
-        return result;
     }
 
     private void logResult(String profiledValue, StopWatch stopWatch, Object result, Object[] args) {
